@@ -48,7 +48,7 @@ export default function Home() {
   const [city, setCity] = useState("")
   const [store, setStore] = useState([])
   const [banner, setBanner] = useState([])
-
+//get the city name on the top
   useEffect(()=>{
     axios.get('https://api-dev.goopter.com/api/v7/city?lan=en&cntry=1')
       .then(function(response){
@@ -59,7 +59,7 @@ export default function Home() {
         console.log(error)
       })
   },[])
-
+//get the store data
   useEffect(()=>{
     axios.get('https://api-dev.goopter.com/api/v7/hs?city=1&lan=en')
       .then(function(response){
@@ -71,8 +71,7 @@ export default function Home() {
       })
   },[])
 
-  useEffect
-
+//get the banner data
   useEffect(()=>{
     axios.get('https://api-dev.goopter.com/api/v7/hlst?latlon=49.213366,-122.988651&lan=en&page=1&limit=20&city=1&c_id=1')
       .then(function(response){
