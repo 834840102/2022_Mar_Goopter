@@ -13,6 +13,7 @@ const Cont = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items:center;
+  min-height: 100vh;
 `
 
 const StoreCont = styled.div`
@@ -27,6 +28,7 @@ const SmallBannerCont = styled.div`
   display:flex;
   justify-content: space-between;
   align-items:center;
+  margin-bottom: 87px;
 `
 
 const LargeBannerCont = styled.div`
@@ -63,7 +65,7 @@ export default function Home() {
   useEffect(()=>{
     axios.get('https://api-dev.goopter.com/api/v7/hs?city=1&lan=en')
       .then(function(res){
-        console.log(res.data.records)
+        //console.log(res.data.records)
         setStore(res.data.records)
       })
       .catch(function(err){
@@ -76,7 +78,7 @@ export default function Home() {
   useEffect(()=>{
     axios.get('https://api-dev.goopter.com/api/v7/hlst?latlon=49.213366,-122.988651&lan=en&page=1&limit=20&city=1&c_id=1')
       .then(function(res){
-        console.log(res.data.records)
+        //console.log(res.data.records)
         setBanner(res.data.records)
       })
       .catch(function(err){
@@ -91,13 +93,22 @@ export default function Home() {
         {store.map((o, i)=><Store url={o.img} text={o.name}></Store>)}
       </StoreCont>
       <SmallBannerCont>
-        {banner.map((o, i)=>
-        <S_Cont url={'https://res.cloudinary.com/goopterdev' + o.i_url} header={o.city} rating={o.rating}></S_Cont>)}
+        
+        {banner.sort((a,b)=>{
+          return (a.width - b.width)
+        }).map((o, i)=>{
+          console.log(banner)
+          if(o.width == 0){
+            return banner.splice(1,1)
+          }
+        if(o.width == 2){
+          return  <S_Cont url={'https://res.cloudinary.com/goopterdev' + o.i_url} header={o.city} rating={o.rating}></S_Cont>
+        }
+        if(o.width == 4){
+          return <L_Cont url={'https://res.cloudinary.com/goopterdev' + o.i_url} header={o.city} rating={o.rating}></L_Cont>
+        }
+        })}
       </SmallBannerCont>
-      <LargeBannerCont>
-      {banner.map((o, i)=>
-        <L_Cont url={'https://res.cloudinary.com/goopterdev' + o.i_url} header={o.city} rating={o.rating}></L_Cont>)}
-      </LargeBannerCont>
       <NavigationBar>
         <NavigationIcon url="/icons/i_home.png" text="Home"/>
         <NavigationIcon url="/icons/i_hot.png" text="What's Hot"/>
@@ -107,3 +118,5 @@ export default function Home() {
     </Cont>
   )
 }
+
+//one cont to cover two types of banner

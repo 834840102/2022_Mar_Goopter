@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 const Cont = styled.div`
     width:100%;
+    height:87px;
     display:flex;
     flex-direction: column;
     justify-content: center;
