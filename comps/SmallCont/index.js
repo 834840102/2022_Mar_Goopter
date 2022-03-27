@@ -2,11 +2,13 @@ import styled from "styled-components";
 
 const Cont = styled.div`
     width: 50%;
-    height:10vh;
+    height:20vh;
     border-radius: 10px;
     display: flex;
     justify-content: space-between;
     background-image: url(${props=>props.url});
+    background-repeat: no-repeat;
+    background-size: contain;
 `
 
 const Text = styled.p`
@@ -24,10 +26,10 @@ const Stars = styled.img`
 export default function S_Cont ({
     header = '',
     url = "",
-    rating = ""
+    rating = "",
 }){
-    return<Cont url={url}>
+    return<Cont url={url}  onError={(event) => event.target.style.display = 'none'} >
             <Text>{header}</Text>
-            <Stars src={rating} />
+            <Stars src={rating}/>
     </Cont>
 }

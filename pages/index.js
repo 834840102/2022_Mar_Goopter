@@ -24,18 +24,16 @@ const StoreCont = styled.div`
   margin-top: 13vh;
 `
 
-const SmallBannerCont = styled.div`
+const BannerCont = styled.div`
+  width:100%;
+  min-height: 100vh; 
   display:flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items:center;
-  margin-bottom: 87px;
-`
-
-const LargeBannerCont = styled.div`
-  display:flex;
-  justify-content: space-between;
-  align-items:center;
-`
+  margin-top:10vh;
+  margin-bottom: 10vh;
+  `
 
 const NavigationBar = styled.div`
   display:flex;
@@ -53,9 +51,9 @@ export default function Home() {
 
   useEffect(()=>{
     axios.get('https://api-dev.goopter.com/api/v7/city?lan=en&cntry=1')
-      .then(function(res){
+      .then(function(response){
         //console.log(res.data.records[0].name)
-        setCity(res.data.records[0].name)
+        setCity(response.data.records[0].name)
       })
       .catch(function(error){
         console.log(error)
@@ -64,12 +62,12 @@ export default function Home() {
 
   useEffect(()=>{
     axios.get('https://api-dev.goopter.com/api/v7/hs?city=1&lan=en')
-      .then(function(res){
+      .then(function(response){
         //console.log(res.data.records)
-        setStore(res.data.records)
+        setStore(response.data.records)
       })
-      .catch(function(err){
-        console.log(err)
+      .catch(function(error){
+        console.log(error)
       })
   },[])
 
@@ -77,14 +75,21 @@ export default function Home() {
 
   useEffect(()=>{
     axios.get('https://api-dev.goopter.com/api/v7/hlst?latlon=49.213366,-122.988651&lan=en&page=1&limit=20&city=1&c_id=1')
-      .then(function(res){
+      .then(function(response){
         //console.log(res.data.records)
-        setBanner(res.data.records)
+        for(var i =0; i < response.data.records.length; i++){
+          if(response.data.records[i].width == 0){
+            delete response.data.records[i]
+          }
+        }
+        setBanner(response.data.records)
       })
-      .catch(function(err){
-        console.log(err)
+      .catch(function(error){
+        console.log(error)
       })
   },[])
+
+
 
   return (
     <Cont>
@@ -92,21 +97,19 @@ export default function Home() {
       <StoreCont>
         {store.map((o, i)=><Store url={o.img} text={o.name}></Store>)}
       </StoreCont>
-      <SmallBannerCont>
+      <BannerCont>
         
         {banner.sort((a,b)=>{
           return (a.width - b.width)
         }).map((o, i)=>{
-          console.log(banner)
-          if(o.width == 0){
-            return banner.splice(1,1)
-          }else if(o.width == 2){
-          return  <S_Cont url={'https://res.cloudinary.com/goopterdev' + o.i_url} header={o.city} rating={o.rating}></S_Cont>
-        }else if(o.width == 4){
-          return <L_Cont url={'https://res.cloudinary.com/goopterdev' + o.i_url} header={o.city} rating={o.rating}></L_Cont>
-        }
+          if(o.width == 2){
+            console.log(banner)
+            return <S_Cont url={'https://res.cloudinary.com/goopterdev' + o.i_url} header={o.name} rating={o.rating} key={i}></S_Cont>
+          }else if(o.width == 4){
+            return <L_Cont url={'https://res.cloudinary.com/goopterdev' + o.i_url} header={o.name} rating={o.rating} location={o.city} key={i}></L_Cont>
+          }
         })}
-      </SmallBannerCont>
+      </BannerCont>
       <NavigationBar>
         <NavigationIcon url="/icons/i_home.png" text="Home"/>
         <NavigationIcon url="/icons/i_hot.png" text="What's Hot"/>

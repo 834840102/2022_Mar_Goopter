@@ -2,11 +2,14 @@ import styled from "styled-components";
 
 const Cont = styled.div`
     width: 100%;
-    height:10vh;
+    height:20vh;
     border-radius: 10px;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     background-image: url(${props=>props.url});
+    background-repeat: no-repeat;
+    background-size: contain;
 `
 
 const HeadBox = styled.div`
@@ -14,10 +17,17 @@ const HeadBox = styled.div`
     margin-left: 2%;
 `
 
-const Text = styled.p`
+const Header = styled.p`
     font-size: 14px;
     color: #ccc;
-    margin-right: 2%;
+`
+
+const Text = styled.p`
+    position: relative;
+    top: 80%;
+    right: 2%;
+    font-size: 14px;
+    color: #ccc;
 `
 
 const BottomBox = styled.div`
@@ -37,9 +47,9 @@ export default function L_Cont ({
     url = "",
     img_url = ""
 }){
-    return<Cont url={url}>
+    return<Cont url={url} onError={(event) => event.target.style.display = 'none'} >
         <HeadBox>
-            <Text>{header}</Text>
+            <Header>{header}</Header>
         </HeadBox>
         <BottomBox>
             <Stars src={img_url} />
