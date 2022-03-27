@@ -100,11 +100,9 @@ export default function Home() {
           console.log(banner)
           if(o.width == 0){
             return banner.splice(1,1)
-          }
-        if(o.width == 2){
+          }else if(o.width == 2){
           return  <S_Cont url={'https://res.cloudinary.com/goopterdev' + o.i_url} header={o.city} rating={o.rating}></S_Cont>
-        }
-        if(o.width == 4){
+        }else if(o.width == 4){
           return <L_Cont url={'https://res.cloudinary.com/goopterdev' + o.i_url} header={o.city} rating={o.rating}></L_Cont>
         }
         })}
