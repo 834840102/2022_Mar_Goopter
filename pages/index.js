@@ -118,5 +118,3 @@ export default function Home() {
     </Cont>
   )
 }
-
-//one cont to cover two types of banner
