@@ -4,6 +4,7 @@ const Cont = styled.div`
     width: 100%;
     height:20vh;
     border-radius: 10px;
+    margin: 0 10px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;

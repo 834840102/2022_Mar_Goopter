@@ -4,6 +4,7 @@ const Cont = styled.div`
     width: 50%;
     height:20vh;
     border-radius: 10px;
+    margin: 5px 0;
     display: flex;
     justify-content: space-between;
     background-image: url(${props=>props.url});
